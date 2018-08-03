@@ -14,8 +14,8 @@ import (
 
 func main() {
 	s, sep := "", ""
-	for _, arg := range os.Args[1:] {
-		s += sep + arg
+	for index, arg := range os.Args[1:] {
+		s += sep + "(" + fmt.Sprint(index) + "," + arg + ")"
 		sep = " "
 	}
 	fmt.Println(s)
