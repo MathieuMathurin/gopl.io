@@ -13,10 +13,14 @@ import (
 )
 
 func main() {
-	var s, sep string
+	var s string
+	sep := " "
+
+	s += "Command:" + sep + os.Args[0] + "\n"
+	s += "Arguments:"
+
 	for i := 1; i < len(os.Args); i++ {
 		s += sep + os.Args[i]
-		sep = " "
 	}
 	fmt.Println(s)
 }
