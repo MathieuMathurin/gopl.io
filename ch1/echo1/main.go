@@ -10,11 +10,13 @@ package main
 import (
 	"fmt"
 	"os"
+	"time"
 )
 
 func main() {
 	var s string
 	sep := " "
+	start := time.Now()
 
 	s += "Command:" + sep + os.Args[0] + "\n"
 	s += "Arguments:"
@@ -23,6 +25,7 @@ func main() {
 		s += sep + os.Args[i]
 	}
 	fmt.Println(s)
+	fmt.Printf("%2fs elapsed", time.Since(start).Seconds())
 }
 
 //!-
