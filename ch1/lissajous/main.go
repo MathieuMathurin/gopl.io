@@ -28,12 +28,7 @@ import (
 
 //!+main
 
-var palette = []color.Color{color.White, color.Black}
-
-const (
-	whiteIndex = 0 // first color in palette
-	blackIndex = 1 // next color in palette
-)
+var palette = []color.Color{color.Black, color.RGBA{0x00, 0xCC, 0x00, 0xFF}, color.RGBA{0xCC, 0x00, 0x00, 0xFF}, color.RGBA{0x00, 0x00, 0xCC, 0xFF}}
 
 func main() {
 	//!-main
@@ -73,14 +68,27 @@ func lissajous(out io.Writer) {
 		for t := 0.0; t < cycles*2*math.Pi; t += res {
 			x := math.Sin(t)
 			y := math.Sin(t*freq + phase)
-			img.SetColorIndex(size+int(x*size+0.5), size+int(y*size+0.5),
-				blackIndex)
+			img.SetColorIndex(size+int(x*size+0.5), size+int(y*size+0.5), getColorIndex(i, nframes))
 		}
 		phase += 0.1
 		anim.Delay = append(anim.Delay, delay)
 		anim.Image = append(anim.Image, img)
 	}
 	gif.EncodeAll(out, &anim) // NOTE: ignoring encoding errors
+}
+
+func getColorIndex(frame int, totalFrames int) uint8 {
+	var colorIndex uint8
+	switch true {
+	case frame%8 == totalFrames%8:
+		colorIndex = 3
+	case frame%2 == 0:
+		colorIndex = 2
+	default:
+		colorIndex = 1
+	}
+
+	return colorIndex
 }
 
 //!-main
